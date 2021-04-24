@@ -1,0 +1,41 @@
+# 应用名称
+spring:
+  application:
+    name: sharding-database
+  main:
+    allow-bean-definition-overriding: true
+  shardingsphere:
+    datasource:
+      d1:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: root
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://localhost:3308/user_db1?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+        username: root
+      d2:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: root
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://localhost:3308/user_db2?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+        username: root
+      names: d1,d2
+    props:
+      sql:
+        show: true
+    sharding:
+      tables:
+        user:
+          actual-data-nodes: d$->{1..2}.user_$->{1..2}
+          database-strategy:
+            inline:
+              ? ''
+                : sharding-column: gender
+              algorithm-expression: d$->{gender=='0'?1:2}
+#          key-generator:
+#            column: id
+#            type: SNOWFLAKE
+          table-strategy:
+            inline:
+              algorithm-expression: user_$->{id% 2 + 1}
+              sharding-column: id
+

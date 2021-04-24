@@ -1,0 +1,65 @@
+# 应用名称
+
+# 应用名称
+application:
+  base-package: com.js
+mybatis:
+  typeAliasesPackage: ${application.base-package}.pojo, ${application.base-package}.vo, ${application.base-package}.dto
+  mapper-locations: classpath:mapper/*/*.xml,classpath:mapper/*.xml
+  configuration:
+    # 一定要设置，避免个别SQL执行时间过长，把系统搞跨
+    default-statement-timeout: 5
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: false
+spring:
+  application:
+    name: sharding-read-write
+  main:
+    allow-bean-definition-overriding: true
+  shardingsphere:
+    masterslave:
+      # 读写分离配置
+      load-balance-algorithm-type: round_robin
+      # 最终的数据源名称
+      name: dataSource
+      # 主库数据源名称
+      master-data-source-name: write
+      # 从库数据源名称列表，多个逗号分隔
+      slave-data-source-names: read
+    datasource:
+      read:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: root
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://60.205.230.70:3306/user?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+        username: root
+
+      write:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: root
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://60.205.230.70:3306/user?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+        username: root
+      names: read,write
+    props:
+      sql:
+        show: true
+    sharding:
+      tables:
+        user:
+          actual-data-nodes: write.user_$->{1..2},read.user_$->{1..2}
+#          key-generator:
+#            column: id
+#            type: SNOWFLAKE
+          table-strategy:
+            inline:
+              algorithm-expression: user_$->{id% 2 + 1}
+              sharding-column: id
+
+
+
+
+
+
+
