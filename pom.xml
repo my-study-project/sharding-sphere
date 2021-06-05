@@ -13,6 +13,7 @@
     <module>sharding-jdbc</module>
     <module>sharding-database</module>
     <module>sharding-read-write</module>
+    <module>sharding-unneed</module>
   </modules>
   <parent>
     <groupId>org.springframework.boot</groupId>
