@@ -28,6 +28,7 @@ spring:
       # 从库数据源名称列表，多个逗号分隔
       slave-data-source-names: read
     datasource:
+      onlyWritePattern:
       read:
         driver-class-name: com.mysql.cj.jdbc.Driver
         password: root
