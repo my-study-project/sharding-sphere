@@ -22,23 +22,23 @@ spring:
     props:
       sql:
         show: true
-    sharding:
-      tables:
-        user:
-          actual-data-nodes: d$->{1..2}.user_$->{1..2}
-          database-strategy:
-            inline:
-              ? ''
-                :
-                sharding-column: gender
-              algorithm-expression: d$->{gender=='0'?1:2}
+#    sharding:
+#      tables:
+#        user:
+#          actual-data-nodes: d$->{1..2}.user_$->{1..2}
+#          database-strategy:
+#            inline:
+#              ? ''
+#                :
+#                sharding-column: gender
+#              algorithm-expression: d$->{gender=='0'?1:2}
 #          key-generator:
 #            column: id
 #            type: SNOWFLAKE
-          table-strategy:
-            inline:
-              algorithm-expression: user_$->{id% 2 + 1}
-              sharding-column: id
+#          table-strategy:
+#            inline:
+#              algorithm-expression: user_$->{id% 2 + 1}
+#              sharding-column: id
 
 application:
   base-package: com.js
