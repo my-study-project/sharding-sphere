@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.js.mapper.UserMapper">
+    <!-- 结果集 -->
+    <resultMap type="com.js.pojo.User" id="UserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="gender" column="gender" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 基本字段 -->
+    <sql id="Base_Column_List">
+        id, user_name, password, gender
+    </sql>
+
+    <sql id="Base_Table_Name">
+        user
+    </sql>
+
+    <!-- 通过ID查询单条数据 -->
+    <select id="findById" resultMap="UserMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="Base_Table_Name"/>
+        where id = #{id}
+    </select>
+
+    <sql id="Base_Where">
+        <where>
+            <if test="id != null">and id = #{id}</if>
+            <if test="userName != null and userName != ''">and user_name = #{userName}</if>
+            <if test="password != null and password != ''">and password = #{password}</if>
+            <if test="gender != null and gender != ''">and gender = #{gender}</if>
+        </where>
+    </sql>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="find" resultMap="UserMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="Base_Table_Name"/>
+        <include refid="Base_Where"/>
+    </select>
+
+    <!-- 新增数据 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.js.pojo.User">
+        insert into
+        <include refid="Base_Table_Name"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="password != null">password,</if>
+            <if test="gender != null">gender,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=INTEGER},</if>
+            <if test="userName != null">#{userName,jdbcType=VARCHAR},</if>
+            <if test="password != null">#{password,jdbcType=VARCHAR},</if>
+            <if test="gender != null">#{gender,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+    <!-- 批量新增 -->
+    <insert id="batchInsert">
+        insert into<include refid="Base_Table_Name"/>(id, user_name, password, gender)
+        values
+        <foreach collection="users" item="item" index="index" separator=",">
+            (#{item.id}, #{item.userName}, #{item.password}, #{item.gender})
+        </foreach>
+    </insert>
+
+    <!-- 通过主键修改数据 -->
+    <update id="updateById">
+        update user_db1.user
+        <set>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="gender != null and gender != ''">gender = #{gender},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from user
+        where id = #{id}
+    </delete>
+
+
+    <!--通过条件删除数据-->
+    <delete id="deleteByEntity" parameterType="com.js.pojo.User">
+        delete from
+        <include refid="Base_Table_Name"/>
+        <include refid="Base_Where"/>
+    </delete>
+
+    <!--通过主键列表删除，列表长度不能为0-->
+    <delete id="deleteByIds">
+        delete from user where id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- 条件查询总数 -->
+    <select id="countByEntity" parameterType="com.js.pojo.User" resultType="int">
+        select count(*) from user
+        <include refid="Base_Where"/>
+    </select>
+
+    <!-- 通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null -->
+    <update id="updateBatch" parameterType="list">
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="user_name = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.userName}
+                </foreach>
+            </trim>
+            <trim prefix="password = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.password}
+                </foreach>
+            </trim>
+            <trim prefix="gender = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.gender}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+</mapper>

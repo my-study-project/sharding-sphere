@@ -1,6 +1,4 @@
 # 应用名称
-
-# 应用名称
 application:
   base-package: com.js
 mybatis:

@@ -15,7 +15,7 @@ class ShardingJdbcApplicationTests {
     @Test
     void contextLoads() {
         User condition = new User();
-        System.out.println(userMapper.selectList(condition));
+        System.out.println(userMapper.find(condition));
     }
 
 }
