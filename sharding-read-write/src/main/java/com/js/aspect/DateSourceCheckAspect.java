@@ -22,7 +22,7 @@ public class DateSourceCheckAspect {
      * @Date: 2021/7/18 5:20 下午
      */
 
-    @Pointcut("execution(* com.js.service..*.*(..))")
+    @Pointcut("within(com.js.service.*Service.*) || within(com.js.service.*ServiceImpl.*)")
     public void checkDateSource() {
 
     }
