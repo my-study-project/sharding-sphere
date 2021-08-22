@@ -2,9 +2,8 @@ package com.js.aspect;
 
 import org.apache.shardingsphere.api.hint.HintManager;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -12,7 +11,7 @@ import org.springframework.util.PatternMatchUtils;
 
 @Aspect
 @Component
-public class DateSourceCheck {
+public class DateSourceCheckAspect {
 
     @Value("${spring.shardingsphere.datasource.onlyWritePattern}")
     private String onlyWritePattern;
@@ -22,7 +21,8 @@ public class DateSourceCheck {
      * @Description: 设置所有的Service层的方法
      * @Date: 2021/7/18 5:20 下午
      */
-    @Pointcut("within(com.js.service.*Service.*) || within(com.js.service.*ServiceImpl.*)")
+
+    @Pointcut("execution(* com.js.service..*.*(..))")
     public void checkDateSource() {
 
     }
@@ -32,18 +32,22 @@ public class DateSourceCheck {
      * @Description: 执行数据库主库切换
      * @Date: 2021/7/18 5:22 下午
      */
-    @Before("checkDateSource()")
-    public void beforelogin(ProceedingJoinPoint point) {
+
+    @Around(value = "checkDateSource()")
+    public void processAuthority(ProceedingJoinPoint point) throws Throwable {
+        System.out.println("EXECUTION welcome");
+        System.out.println("EXECUTION 调用方法:" + point.getSignature().getName());
+        System.out.println("EXECUTION 目标对象：" + point.getTarget());
+        System.out.println("EXECUTION 首个参数：" + point.getArgs()[0]);
         String methodName = point.getSignature().getName();
         if (checkMethod(methodName)) {
-            HintManager hintManager = HintManager.getInstance();
-            hintManager.setMasterRouteOnly();
+            HintManager.getInstance().setMasterRouteOnly();
         }
-    }
+        point.proceed();
+        System.out.println("EXECUTION success");
+        HintManager.getInstance().close();
 
-    @After("checkDateSource()")
-    public void afterlogin() {
-        System.out.println("after");
+
     }
 
     private Boolean checkMethod(String methodName) {

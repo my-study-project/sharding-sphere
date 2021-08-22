@@ -27,20 +27,31 @@ spring:
       slave-data-source-names: read
     datasource:
       onlyWritePattern:
-      read:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        password: root
-        type: com.alibaba.druid.pool.DruidDataSource
-        url: jdbc:mysql://60.205.230.70:3306/user?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-        username: root
-
       write:
         driver-class-name: com.mysql.cj.jdbc.Driver
         password: root
         type: com.alibaba.druid.pool.DruidDataSource
-        url: jdbc:mysql://60.205.230.70:3306/user?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+        url: jdbc:mysql://127.0.0.1:3306/user_db1?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
         username: root
-      names: read,write
+      read01:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: root
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://127.0.0.1:3306/user_db2?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+        username: root
+      read02:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: root
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://127.0.0.1:3306/user_db3?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+        username: root
+      names: write,read01,read02
+    config:
+      masterslave:
+        load-balance-algorithm-type: round_robin
+        name: mcspcsalesMaster1Slave2
+        master-data-source-name: write
+        slave-data-source-names: read01,read02
     props:
       sql:
         show: true
@@ -48,9 +59,6 @@ spring:
       tables:
         user:
           actual-data-nodes: write.user_$->{1..2},read.user_$->{1..2}
-#          key-generator:
-#            column: id
-#            type: SNOWFLAKE
           table-strategy:
             inline:
               algorithm-expression: user_$->{id% 2 + 1}
