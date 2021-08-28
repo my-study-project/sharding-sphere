@@ -11,10 +11,10 @@ public class ConfigurableAdvisorConfig {
     @Value("${application.basePackage}")
     private String basePackage;
 
-    private String serviePackage = "within(" + basePackage + ".service.*Service.*) || within(" + basePackage + ".service.*ServiceImpl.*)";
-
     @Bean
     public AspectJExpressionPointcutAdvisor configurabledvisor() {
+        String serviePackage = "execution(* " + basePackage + ".service.*.*(..))";
+
         AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
         advisor.setExpression(serviePackage);
         advisor.setAdvice(new DateSourceCheckAdvice());
