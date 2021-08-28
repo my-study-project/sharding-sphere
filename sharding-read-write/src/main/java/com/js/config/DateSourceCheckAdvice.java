@@ -23,12 +23,16 @@ public class DateSourceCheckAdvice implements MethodInterceptor {
             String methodName = invocation.getMethod().getName();
             if (checkMethod(methodName)) {
                 HintManager.getInstance().setMasterRouteOnly();
+            } else {
+                HintManager.getInstance().setDatabaseShardingValue("read");
             }
             result = invocation.proceed();
         } catch (Exception e) {
             log.error("当前方法执行出现异常", e);
         } finally {
-            HintManager.getInstance().close();
+            if (HintManager.isMasterRouteOnly()) {
+                HintManager.getInstance().close();
+            }
             return result;
         }
 
