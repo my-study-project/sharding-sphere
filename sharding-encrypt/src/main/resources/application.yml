@@ -1,0 +1,46 @@
+# ????
+application:
+  base-package: com.js
+mybatis:
+  typeAliasesPackage: ${application.base-package}.pojo, ${application.base-package}.vo, ${application.base-package}.dto
+  mapper-locations: classpath:mapper/*/*.xml,classpath:mapper/*.xml
+  configuration:
+    # ??????????SQL????????????
+    default-statement-timeout: 5
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: false
+spring:
+  privateKey:
+  publicKey:
+  application:
+    name: sharding-encrypt
+  shardingsphere:
+    datasource:
+      name: master
+      master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.20.181:3060/collateral?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
+        username: ??????
+        password: ?????
+    encrypt:
+      encryptors:
+        encryptor_aes:
+          type: my-aes <!--???????????aes,md5??????????my-aes??????-->
+      tables:
+        t_collateral_record:
+          columns:
+            project_name:
+              cipherColumn: project_name <!--??????-->
+              encryptor: encryptor_aes <!--????-->
+            project_no:
+              cipherColumn: project_no <!--??????-->
+              encryptor: encryptor_aes <!--????-->
+    props:
+      sql:
+        show: false <!--????sql-->
+      query:
+        with:
+          cipher:
+            column: true <!--??????????-->

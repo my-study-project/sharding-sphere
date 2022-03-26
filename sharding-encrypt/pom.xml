@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>sharding-jdbc</artifactId>
+    <artifactId>sharding-encrypt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>sharding-jdbc</name>
-    <description>水平分表</description>
+    <name>sharding-encrypt</name>
+    <description>sharding-encrypt</description>
     <parent>
         <groupId>com.js</groupId>
         <artifactId>sharding-sphere</artifactId>
@@ -55,6 +55,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.13</version>
+        </dependency>
     </dependencies>
+
 </project>
+
