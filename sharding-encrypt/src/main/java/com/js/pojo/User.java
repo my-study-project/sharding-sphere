@@ -18,10 +18,12 @@ public class User {
      * 用户名
      */
     private String userName;
+    private String userNameEncrypt;
     /**
      * 密码
      */
     private String password;
+    private String passwordEncrypt;
     /**
      * 性别
      */

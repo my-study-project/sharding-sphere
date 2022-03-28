@@ -1,46 +1,63 @@
-# ????
 application:
   base-package: com.js
 mybatis:
   typeAliasesPackage: ${application.base-package}.pojo, ${application.base-package}.vo, ${application.base-package}.dto
   mapper-locations: classpath:mapper/*/*.xml,classpath:mapper/*.xml
   configuration:
-    # ??????????SQL????????????
     default-statement-timeout: 5
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     cache-enabled: false
 spring:
-  privateKey:
-  publicKey:
   application:
     name: sharding-encrypt
   shardingsphere:
     datasource:
-      name: master
+      names: master
       master:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://192.168.20.181:3060/collateral?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
-        username: ??????
-        password: ?????
+        url: jdbc:mysql://127.0.0.1:3306/user?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
+        username: root
+        password: root
     encrypt:
       encryptors:
-        encryptor_aes:
-          type: my-aes <!--???????????aes,md5??????????my-aes??????-->
+        my_sharding_encryptor:
+          type: mySharding
+          props:
+            aes.key.value: fly13579@#
       tables:
-        t_collateral_record:
+        user:
           columns:
-            project_name:
-              cipherColumn: project_name <!--??????-->
-              encryptor: encryptor_aes <!--????-->
-            project_no:
-              cipherColumn: project_no <!--??????-->
-              encryptor: encryptor_aes <!--????-->
+            username:
+              plainColumn: username
+              cipherColumn: username_encrypt
+              encryptor: my_sharding_encryptor
+            password:
+              plainColumn: password
+              cipherColumn: password_encrypt
+              encryptor: my_sharding_encryptor
     props:
       sql:
-        show: false <!--????sql-->
+        show: true
       query:
         with:
           cipher:
-            column: true <!--??????????-->
+            column: true
+
+
+#  encrypt:
+#    encryptors:
+#      encryptor_md5:
+#        type: MD5
+#    tables:
+#      user:
+#        columns:
+#          username:
+#            plainColumn: username
+#            cipherColumn: username_encrypt
+#            encryptor: encryptor_md5
+#          password:
+#            cipherColumn: password_encrypt
+#            plainColumn: password
+#            encryptor: encryptor_md5
