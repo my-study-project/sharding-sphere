@@ -1,3 +1,49 @@
 spring:
   application:
     name: sharding-config
+  shardingsphere:
+    props:
+      sql:
+        show: true
+
+mybatis:
+  typeAliasesPackage: ${application.base-package}.pojo, ${application.base-package}.vo, ${application.base-package}.dto
+  mapper-locations: classpath:mapper/*/*.xml,classpath:mapper/*.xml
+  configuration:
+    default-statement-timeout: 5
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: false
+
+datasource0:
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  password: root
+  type: com.alibaba.druid.pool.DruidDataSource
+  url: jdbc:mysql://localhost:3306/test0?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+  username: root
+datasource1:
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  password: root
+  type: com.alibaba.druid.pool.DruidDataSource
+  url: jdbc:mysql://localhost:3306/test1?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+  username: root
+server:
+  port: 8080
+  datasource:
+    druid:
+      filters: stat,wall,log4j2
+      stat-view-servlet:
+        allow: 127.0.0.1
+        deny: ''
+        enabled: true
+        login-password: 123
+        login-username: admin
+        reset-enable: false
+        url-pattern: /druid/*
+      web-stat-filter:
+        enabled: true
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+        session-stat-enable: true
+        session-stat-max-count: 1000
+        url-pattern: /*
+
