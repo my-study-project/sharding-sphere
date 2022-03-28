@@ -29,9 +29,9 @@ spring:
       tables:
         user:
           columns:
-            username:
-              plainColumn: username
-              cipherColumn: username_encrypt
+            user_name:
+              plainColumn: user_name
+              cipherColumn: user_name_encrypt
               encryptor: my_sharding_encryptor
             password:
               plainColumn: password
