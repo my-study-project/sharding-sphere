@@ -6,14 +6,12 @@
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="userName" column="user_name" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
-        <result property="userNameEncrypt" column="user_name_encrypt" jdbcType="VARCHAR"/>
-        <result property="passwordEncrypt" column="password_encrypt" jdbcType="VARCHAR"/>
         <result property="gender" column="gender" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <!-- 基本字段 -->
+    <!-- 基本字段 ,user_name_encrypt,password_encrypt-->
     <sql id="Base_Column_List">
-        id, user_name, password, gender,user_name_encrypt,password_encrypt
+        id, user_name, password, gender
     </sql>
 
     <sql id="Base_Table_Name">
