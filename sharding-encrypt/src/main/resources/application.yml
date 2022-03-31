@@ -30,11 +30,11 @@ spring:
         user:
           columns:
             user_name:
-              plainColumn: user_name
+#              plainColumn: user_name
               cipherColumn: user_name_encrypt
               encryptor: my_sharding_encryptor
             password:
-              plainColumn: password
+#              plainColumn: password
               cipherColumn: password_encrypt
               encryptor: my_sharding_encryptor
     props:

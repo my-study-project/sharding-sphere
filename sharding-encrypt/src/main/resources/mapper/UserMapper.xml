@@ -121,30 +121,4 @@
         select count(*) from user
         <include refid="Base_Where"/>
     </select>
-
-    <!-- 通过主键修改实体列表，列表长度不能为0，注意：当实体属性为null时，对应的列也会别更新为null -->
-    <update id="updateBatch" parameterType="list">
-        update user
-        <trim prefix="set" suffixOverrides=",">
-            <trim prefix="user_name = case" suffix="end,">
-                <foreach collection="list" item="item" index="index">
-                    when id = #{item.id} then #{item.userName}
-                </foreach>
-            </trim>
-            <trim prefix="password = case" suffix="end,">
-                <foreach collection="list" item="item" index="index">
-                    when id = #{item.id} then #{item.password}
-                </foreach>
-            </trim>
-            <trim prefix="gender = case" suffix="end,">
-                <foreach collection="list" item="item" index="index">
-                    when id = #{item.id} then #{item.gender}
-                </foreach>
-            </trim>
-        </trim>
-        where id in
-        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
-            #{item.id,jdbcType=INTEGER}
-        </foreach>
-    </update>
 </mapper>

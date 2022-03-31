@@ -88,11 +88,4 @@ public interface UserMapper {
      */
     Integer countByEntity(User user);
 
-    /**
-     * 批量修改
-     *
-     * @return 修改成功的条数
-     */
-    Integer updateBatch(@Param("list") List<User> list);
-
 }
