@@ -22,7 +22,7 @@ public interface UserMapper {
      * @param id 主键
      * @return 实例对象
      */
-    User findById(@Param("id") Long id);
+    User findById(@Param("id") Integer id);
 
 
     /**

@@ -26,14 +26,13 @@
         <include refid="Base_Table_Name"/>
         where id = #{id}
     </select>
-
+    <!--            <if test="userNameEncrypt != null and userNameEncrypt != ''">and user_name_encrypt = #{userNameEncrypt}</if>-->
+    <!--            <if test="passwordEncrypt != null and passwordEncrypt != ''">and password_encrypt = #{passwordEncrypt}</if>-->
     <sql id="Base_Where">
         <where>
             <if test="id != null">and id = #{id}</if>
             <if test="userName != null and userName != ''">and user_name = #{userName}</if>
             <if test="password != null and password != ''">and password = #{password}</if>
-            <if test="userNameEncrypt != null and userNameEncrypt != ''">and user_name_encrypt = #{userNameEncrypt}</if>
-            <if test="passwordEncrypt != null and passwordEncrypt != ''">and password_encrypt = #{passwordEncrypt}</if>
             <if test="gender != null and gender != ''">and gender = #{gender}</if>
         </where>
     </sql>
@@ -47,6 +46,10 @@
         <include refid="Base_Where"/>
     </select>
 
+<!--    <if test="userNameEncrypt != null">user_name_encrypt,</if>-->
+<!--    <if test="passwordEncrypt != null">password_encrypt,</if>-->
+<!--    <if test="userNameEncrypt != null">#{userNameEncrypt,jdbcType=VARCHAR},</if>-->
+<!--    <if test="passwordEncrypt != null">#{passwordEncrypt,jdbcType=VARCHAR},</if>-->
     <!-- 新增数据 -->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.js.pojo.User">
         insert into
@@ -56,16 +59,14 @@
             <if test="userName != null">user_name,</if>
             <if test="password != null">password,</if>
             <if test="gender != null">gender,</if>
-            <if test="userNameEncrypt != null">user_name_encrypt,</if>
-            <if test="passwordEncrypt != null">password_encrypt,</if>
+
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id,jdbcType=INTEGER},</if>
             <if test="userName != null">#{userName,jdbcType=VARCHAR},</if>
             <if test="password != null">#{password,jdbcType=VARCHAR},</if>
             <if test="gender != null">#{gender,jdbcType=VARCHAR},</if>
-            <if test="userNameEncrypt != null">#{userNameEncrypt,jdbcType=VARCHAR},</if>
-            <if test="passwordEncrypt != null">#{passwordEncrypt,jdbcType=VARCHAR},</if>
+
         </trim>
     </insert>
 
@@ -79,12 +80,12 @@
     </insert>
 
     <!-- 通过主键修改数据 -->
+<!--    <if test="userNameEncrypt != null and userNameEncrypt != ''">user_name_encrypt = #{userNameEncrypt},</if>-->
+<!--    <if test="passwordEncrypt != null and passwordEncrypt != ''">password_encrypt = #{passwordEncrypt},</if>-->
     <update id="updateById">
-        update user_db1.user
+        update user
         <set>
             <if test="userName != null and userName != ''">user_name = #{userName},</if>
-            <if test="userNameEncrypt != null and userNameEncrypt != ''">user_name_encrypt = #{userNameEncrypt},</if>
-            <if test="passwordEncrypt != null and passwordEncrypt != ''">password_encrypt = #{passwordEncrypt},</if>
             <if test="password != null and password != ''">password = #{password},</if>
             <if test="gender != null and gender != ''">gender = #{gender},</if>
         </set>
