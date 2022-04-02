@@ -32,10 +32,10 @@ public class DateSourceCheckAdvice implements MethodInterceptor {
             if (checkMethod(methodName)) {
                 HintManager.getInstance().setMasterRouteOnly();
             } else {
-                // 读库选择随机到一个从库上
-                List<String> slaveDataSourceNames = yamlMasterSlaveRuleConfiguration.getSlaveDataSourceNames();
-                int i = RandomUtils.nextInt(0, slaveDataSourceNames.size());
-                HintManager.getInstance().setDatabaseShardingValue(slaveDataSourceNames.get(i));
+//                // 读库选择随机到一个从库上
+//                List<String> slaveDataSourceNames = yamlMasterSlaveRuleConfiguration.getSlaveDataSourceNames();
+//                int i = RandomUtils.nextInt(0, slaveDataSourceNames.size());
+//                HintManager.getInstance().setDatabaseShardingValue(slaveDataSourceNames.get(i));
             }
             result = invocation.proceed();
         } catch (Exception e) {

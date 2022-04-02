@@ -1,15 +1,15 @@
-# 应用名称
+
 application:
   basePackage: com.js
 mybatis:
   typeAliasesPackage: ${application.base-package}.pojo, ${application.base-package}.vo, ${application.base-package}.dto
   mapper-locations: classpath:mapper/*/*.xml,classpath:mapper/*.xml
   configuration:
-    # 一定要设置，避免个别SQL执行时间过长，把系统搞跨
     default-statement-timeout: 5
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     cache-enabled: false
+
 spring:
   application:
     name: sharding-read-write
@@ -17,16 +17,12 @@ spring:
     allow-bean-definition-overriding: true
   shardingsphere:
     masterslave:
-      # 读写分离配置
       load-balance-algorithm-type: round_robin
-      # 最终的数据源名称
       name: dataSource
-      # 主库数据源名称
       master-data-source-name: write
-      # 从库数据源名称列表，多个逗号分隔
-      slave-data-source-names: read
+      slave-data-source-names: read01
     datasource:
-      onlyWritePattern:
+      onlyWritePattern: do*
       write:
         driver-class-name: com.mysql.cj.jdbc.Driver
         password: root
@@ -39,13 +35,13 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         url: jdbc:mysql://127.0.0.1:3306/user_db2?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
         username: root
-      read02:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        password: root
-        type: com.alibaba.druid.pool.DruidDataSource
-        url: jdbc:mysql://127.0.0.1:3306/user_db3?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-        username: root
-      names: write,read01,read02
+#      read02:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        password: root
+#        type: com.alibaba.druid.pool.DruidDataSource
+#        url: jdbc:mysql://127.0.0.1:3306/user_db3?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+#        username: root
+      names: write,read01
     config:
       masterslave:
         load-balance-algorithm-type: round_robin
