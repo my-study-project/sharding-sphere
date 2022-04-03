@@ -17,7 +17,7 @@ spring:
     datasource:
       d1:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        password: root
+        password: 123456
         type: com.alibaba.druid.pool.DruidDataSource
         url: jdbc:mysql://127.0.0.1:3306/user_db2?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
         username: root

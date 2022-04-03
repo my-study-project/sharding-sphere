@@ -19,7 +19,7 @@ spring:
         driverClassName: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://127.0.0.1:3306/user?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
         username: root
-        password: root
+        password: 123456
     encrypt:
       encryptors:
         my_sharding_encryptor:

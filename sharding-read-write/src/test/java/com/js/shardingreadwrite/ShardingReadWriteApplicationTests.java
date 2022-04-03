@@ -16,11 +16,11 @@ class ShardingReadWriteApplicationTests {
     private UserService userService;
     @Test
     void contextLoads() {
-        User user = new User();
-        user.setGender("0");
-        user.setUserName("testWriteRead");
-        user.setPassword("testWriteRead");
-        userService.doSave(user);
+//        User user = new User();
+//        user.setGender("0");
+//        user.setUserName("testWriteRead");
+//        user.setPassword("testWriteRead");
+//        userService.doSave(user);
         final List<User> all = userService.findAll(new User());
         System.out.println(all);
     }
