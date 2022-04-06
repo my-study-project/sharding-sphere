@@ -7,13 +7,13 @@ spring:
     datasource:
       d1:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        password: root
+        password: 123456
         type: com.alibaba.druid.pool.DruidDataSource
         url: jdbc:mysql://localhost:3306/user_db1?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
         username: root
       d2:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        password: root
+        password: 123456
         type: com.alibaba.druid.pool.DruidDataSource
         url: jdbc:mysql://localhost:3306/user_db2?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
         username: root
