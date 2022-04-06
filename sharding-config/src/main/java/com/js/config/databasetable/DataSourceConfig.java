@@ -35,8 +35,8 @@
 //    @Value("${datasource1.driver-class-name}")
 //    private String driverClassName1;
 //
-//    @Value(("${spring.datasource.druid.filters}"))
-//    private String filters;
+////    @Value(("${spring.datasource.druid.filters}"))
+////    private String filters;
 //
 //    @Bean("dataSource")
 //    public DataSource dataSource() {
@@ -46,14 +46,14 @@
 //            dataSource0.setUrl(this.url0);
 //            dataSource0.setUsername(this.username0);
 //            dataSource0.setPassword(this.password0);
-//            dataSource0.setFilters(this.filters);
+////            dataSource0.setFilters(this.filters);
 //
 //            DruidDataSource dataSource1 = new DruidDataSource();
 //            dataSource1.setDriverClassName(this.driverClassName1);
 //            dataSource1.setUrl(this.url1);
 //            dataSource1.setUsername(this.username1);
 //            dataSource1.setPassword(this.password1);
-//            dataSource1.setFilters(this.filters);
+////            dataSource1.setFilters(this.filters);
 //            //分库设置
 //            Map<String, DataSource> dataSourceMap = new HashMap<>(2);
 //            //添加两个数据库database0和database1
